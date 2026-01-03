@@ -1,77 +1,62 @@
-# esp32-tcp-multi-client-data-transfer
-ESP32 TCP client project that connects to a server, supports multiple clients, and demonstrates reliable data transfer of 100,000 bytes using ESP-IDF.
+# ESP32 TCP Multi-Client Data Transfer
 
-# 🚀 ESP32 TCP Multi-Client Data Transfer  
+## Overview
+This project demonstrates how an ESP32 can act as a TCP server
+and handle multiple client connections simultaneously.
 
-This repository contains an **ESP32 TCP client project** built with the **ESP-IDF framework**.  
-It demonstrates how to connect an ESP32 device to a **TCP server** over Wi-Fi, exchange data with **multiple clients**, and test **large data transfer (100,000 bytes)**.  
+It is designed to understand:
+- TCP socket programming on ESP32
+- Handling multiple clients reliably
+- Real-time data transfer in IoT applications
 
----
+## Why TCP?
+TCP is used instead of UDP to ensure:
+- Reliable data delivery
+- Ordered packets
+- Connection-based communication
 
-## 📖 Table of Contents  
+This is useful for industrial and automation systems
+where data integrity is critical.
 
-1. [Overview](#overview)  
-2. [Features](#features)  
-3. [Project Structure](#project-structure)  
-4. [Requirements](#requirements)  
-5. [How It Works](#how-it-works)  
-6. [Setup & Build](#setup--build)  
-7. [Running the Server](#running-the-server)  
-8. [Monitoring ESP32 Output](#monitoring-esp32-output)  
-9. [Example Logs](#example-logs)  
-10. [Performance Notes](#performance-notes)  
-11. [Future Improvements](#future-improvements)  
-12. [License](#license)  
+## Architecture
+- ESP32 acts as a TCP Server
+- Multiple clients connect via IP + Port
+- ESP32 listens, accepts, and processes client data
+- Data is received and optionally echoed / processed
 
----
+(Client handling is implemented using tasks / loops)
 
-## 🔎 Overview  
+## Hardware Used
+- ESP32 Dev Module
+- Wi-Fi Network (same LAN)
+- TCP clients (PC / Mobile / Python script)
 
-- The **ESP32 acts as a TCP client**, connecting to a server running on a PC/Raspberry Pi/other system.  
-- Multiple ESP32 boards can connect simultaneously (multi-client).  
-- Each client requests **100,000 bytes of data** from the server to test reliability and speed.  
-- Logs show how many bytes were received, along with timestamps for performance analysis.  
+## Software Stack
+- ESP-IDF / Arduino (mention which one clearly)
+- Wi-Fi TCP/IP stack
+- Socket APIs
 
----
+## How to Run
+1. Flash the code to ESP32
+2. Connect ESP32 to Wi-Fi
+3. Note the ESP32 IP address
+4. Connect multiple clients using:
+   - PC terminal
+   - Python socket script
+5. Send data and observe responses
 
-## ✨ Features  
+## Use Cases
+- IoT gateway
+- Multi-device control system
+- Data aggregation node
+- Industrial communication prototype
 
-- 📡 **Wi-Fi STA mode** with auto-reconnect  
-- 🔗 **TCP client** using lwIP sockets  
-- 👥 Works with **multiple ESP32 clients** connected to one server  
-- 📦 Supports **large payload transfer** (100k bytes demo)  
-- ⏱ **Timestamp logging** to measure speed & latency  
-- 🔄 Automatic retry if server disconnects  
+## Project Status
+✔ Basic multi-client handling implemented  
+🚧 Improvements planned:
+- Client timeout handling
+- Better error handling
+- Dynamic client limit
 
-
-## 🛠 Requirements  
-
-- ESP32 development board (ESP32, ESP32-S2, ESP32-S3, etc.)  
-- [ESP-IDF v5.x](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/get-started/) (tested with v5.1.6)  
-- Python 3.x (for server script)  
-- A PC/Raspberry Pi to run the TCP server  
-
----
-
-## ⚙️ How It Works  
-
-1. ESP32 boots and connects to your Wi-Fi network.  
-2. The ESP32 creates a **TCP socket** and attempts to connect to the server (IP + port).  
-3. Once connected, the server sends **100,000 bytes** of test data.  
-4. ESP32 receives chunks of data, logs the received size, and keeps a running total.  
-5. After the full payload is received, the ESP32 closes the connection and retries.  
-6. Multiple ESP32 boards can connect simultaneously to the same server.  
-
----
-
-## 🚀 Setup & Build  
-
-### 1. Configure Wi-Fi  
-Edit the `main/tcp_client.c` file and update:  
-
-```c
-#define WIFI_SSID   "YourWiFiSSID"
-#define WIFI_PASS   "YourWiFiPassword"
-#define SERVER_IP   "192.168.1.100"  // Your server's IP
-#define SERVER_PORT 3333
-
+## Author
+Mayuresh Kodape
